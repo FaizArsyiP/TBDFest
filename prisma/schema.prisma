@@ -13,3 +13,44 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Pengguna {
+  id_pengguna  Int        @id @default(autoincrement())
+  nama         String
+  email        String     @unique
+  no_telepon   String
+
+  tiket        Tiket[]
+  pelaksana    Pelaksana[]
+}
+
+model Event {
+  id_event           Int        @id @default(autoincrement())
+  nama_event         String
+  lokasi             String
+  tanggal_pelaksanaan DateTime
+  kuota              Int
+
+  tiket              Tiket[]
+  pelaksana          Pelaksana[]
+}
+
+model Tiket {
+  id                Int      @id @default(autoincrement())
+  id_pengguna       Int
+  id_event          Int
+  no_tiket          String   @unique
+
+  pengguna          Pengguna @relation(fields: [id_pengguna], references: [id_pengguna])
+  event             Event    @relation(fields: [id_event], references: [id_event])
+}
+
+model Pelaksana {
+  id               Int      @id @default(autoincrement())
+  id_pengguna      Int
+  id_event         Int
+  nama_pelaksana   String
+
+  pengguna         Pengguna @relation(fields: [id_pengguna], references: [id_pengguna])
+  event            Event    @relation(fields: [id_event], references: [id_event])
+}
