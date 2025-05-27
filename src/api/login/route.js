@@ -1,4 +1,4 @@
-import { supabase } from 'Project_TBD/lib/client';
+import { supabase } from '../../lib/client.js';
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
