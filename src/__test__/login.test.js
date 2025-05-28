@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-import router from '../api/login/route.js';
+import router from '../app/api/login/route.js';
 
 const app = express();
 app.use(express.json());
@@ -38,16 +38,19 @@ describe('Login API', () => {
         expect(res.body.user).not.toHaveProperty('password');
     });
     
-    test('should return 201 and user data for successful signup', async () => {
-        const res = await request(app)
-            .post('/signup')
-            .send({
-                email: 'faiz@gmail.com',
-                password: 'testpassword123',
-                no_telepon: '08123456789',
-                username: 'Test'
-            });
+        test('should return 201 and user data for successful signup', async () => {
+            const uniqueEmail = `faiz${Date.now()}@gmail.com`; // generate email unik tiap run
+        
+            const res = await request(app)
+                .post('/signup')
+                .send({
+                    email: uniqueEmail,
+                    password: 'testpassword123',
+                    no_telepon: '08123456789',
+                    username: 'Test'
+                });
+            
+            expect(res.statusCode).toBe(201);
+        });
 
-        expect(res.statusCode).toBe(201);
     });
-});
