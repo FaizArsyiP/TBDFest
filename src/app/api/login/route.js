@@ -4,30 +4,28 @@ import express from 'express';
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Masukkan email dan password anda' });
+    if (!identifier || !password) {
+        return res.status(400).json({ error: 'Masukkan email/username dan password anda' });
     }
 
-    const { data: users, error } = await supabase
+    const { data, error } = await supabase
         .from('pengguna')
         .select('*')
-        .eq('email', email)
-        .limit(1);
+        .or(`email.eq.${identifier},username.eq.${identifier}`)
+        .single();
 
-
-    if (!users || users.length === 0) {
-        return res.status(401).json({ error: 'Email atau password anda salah' });
+    if (error || !data) {
+        return res.status(401).json({ error: 'Email/Username atau password anda salah' });
     }
 
-    const user = users[0];
+    if (data.password !== password) {
+        return res.status(401).json({ error: 'Password anda salah' });
+    }
 
-    // Remove password before sending user data
-    delete user.password;
-
-    // Login successful
-    res.json({ message: 'Login Berhasil', user });
+    const { password: _, ...user } = data;
+    res.status(200).json({ message: 'Login Berhasil', user });
 });
 
 router.post('/signup', async (req, res) => {
@@ -37,9 +35,34 @@ router.post('/signup', async (req, res) => {
         return res.status(400).json({ error: 'Isi semua kolom yang tersedia' });
     }
 
-    const { data: existingUser, error } = await supabase.from('pengguna').select('id_pengguna').eq('email', email).limit(1);
+    // Check if email or username already exists
+    const { data: existingUser, error } = await supabase
+        .from('pengguna')
+        .select('id_pengguna')
+        .or(`email.eq.${email},username.eq.${username}`)
+        .limit(1);
+
     if (existingUser && existingUser.length > 0) {
-        return res.status(409).json({ error: 'Email sudah terdaftar' });
+        // Determine which field is duplicated
+        const { data: emailUser } = await supabase
+            .from('pengguna')
+            .select('id_pengguna')
+            .eq('email', email)
+            .limit(1);
+
+        const { data: usernameUser } = await supabase
+            .from('pengguna')
+            .select('id_pengguna')
+            .eq('username', username)
+            .limit(1);
+
+        if (emailUser && emailUser.length > 0 && usernameUser && usernameUser.length > 0) {
+            return res.status(409).json({ error: 'Email dan Username sudah terdaftar' });
+        } else if (emailUser && emailUser.length > 0) {
+            return res.status(409).json({ error: 'Email sudah terdaftar' });
+        } else if (usernameUser && usernameUser.length > 0) {
+            return res.status(409).json({ error: 'Username sudah terdaftar' });
+        }
     }
 
     const { data: lastUser, error: lastUserError } = await supabase
