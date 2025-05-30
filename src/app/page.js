@@ -22,7 +22,7 @@ export default function HomePage() {
           <div className="w-150 h-150 rounded-full overflow-hidden mb-8 relative">
             <div className="absolute inset-0 bg-blue-500/30 mix-blend-multiply"></div>
             <Image 
-              src="/konser1.jpg" 
+              src="/image/konser1.jpg" 
               alt="Event Image"
               width={256}
               height={256}
