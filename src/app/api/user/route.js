@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/client.js';
+import { supabase } from '../../../lib/client.js';
 import express from 'express';
 
 const router = express.Router();
