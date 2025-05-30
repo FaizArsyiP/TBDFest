@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { DM_Serif_Display, Plus_Jakarta_Sans, Work_Sans } from 'next/font/google';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 // Load fonts
@@ -23,6 +23,7 @@ const workSans = Work_Sans({
 export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [popupScale, setPopupScale] = useState(0);
     
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -30,30 +31,40 @@ export default function SignupPage() {
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        // Here you would typically handle form submission
-        // For demo, we'll just show the popup
         setShowSuccessPopup(true);
     };
 
+    useEffect(() => {
+        if (showSuccessPopup) {
+            setPopupScale(0);
+            const timer = setTimeout(() => setPopupScale(1), 10);
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccessPopup]);
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
-            <div className="absolute inset-0 bg-[url('/image/bgfestival.jpg')] bg-cover bg-center blur-sm opacity-90 -z-10"/>
+        <div className="min-h-screen flex items-center justify-center bg-cover bg-center relative">
+            {/* Background with conditional blur - ONLY THIS WILL BLUR */}
+            <div className={`absolute inset-0 bg-[url('/image/bgfestival.jpg')] bg-cover bg-center transition-all duration-300 ${showSuccessPopup ? 'blur-md' : 'blur-sm'} opacity-90 -z-10`}/>
             
+            {/* Main container - WON'T blur when popup appears */}
             <div 
-                className="w-full max-w-2xl p-15 rounded-[40px] shadow-lg relative"
+                className="w-full max-w-2xl p-8 rounded-[40px] shadow-lg relative"
                 style={{ 
                     backgroundColor: 'rgba(255, 255, 255, 0.3)',
                     backdropFilter: 'blur(8px)'
                 }}
             >
-                {/* Success Popup */}
+                {/* Success Popup - NO BLUR HERE */}
                 {showSuccessPopup && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="fixed inset-0  flex items-center justify-center z-50">
                         <div 
                             className="bg-white p-8 rounded-[40px] text-center max-w-md mx-4"
                             style={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                backdropFilter: 'blur(8px)'
+                                backgroundColor: 'rgba(255, 255, 255, 1)',
+                                transform: `scale(${popupScale})`,
+                                transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                                transformOrigin: 'center'
                             }}
                         >
                             <h2 
@@ -82,7 +93,6 @@ export default function SignupPage() {
 
                 {/* Sign Up Form */}
                 <form onSubmit={handleSignUp}>
-                    {/* Sign Up Title */}
                     <h1 
                         className={`text-5xl font-bold text-center mb-8 ${dmSerifDisplay.className}`}
                         style={{ color: '#000000' }}
