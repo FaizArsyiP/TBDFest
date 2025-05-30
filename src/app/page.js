@@ -1,6 +1,8 @@
 // src/app/page.js
+'use client';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useState } from 'react';
 import Image from 'next/image';
 import { DM_Serif_Display } from 'next/font/google';
 
@@ -10,52 +12,52 @@ const dmSerifDisplay = DM_Serif_Display({
 });
 
 export default function HomePage() {
+  const [isClicked, setIsClicked] = useState(false);
   return (
     <>
-      <Head>
-        <title>ACARA SERU MENUNGGUMU</title>
-      </Head>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#1c1c1c] p-4">
-        {/* Container untuk teks dan lingkaran */}
-        <div className="relative flex flex-col items-center">
-          {/* Lingkaran sebagai mask untuk gambar */}
-          <div className="w-150 h-150 rounded-full overflow-hidden mb-8 relative">
-            <div className="absolute inset-0 bg-blue-500/30 mix-blend-multiply"></div>
-            <Image 
-              src="/image/konser1.jpg" 
-              alt="Event Image"
-              width={256}
-              height={256}
-              className="object-cover w-full h-full"
-              priority
-            />
-          </div>
-          
-        </div>
+      <div 
+      className="min-h-screen flex flex-col items-center justify-center p-4"
+      style={{ 
+        backgroundImage: "url('/image/bgfestival.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+        
+      }}
+      
+    >
 
-        <h1 className={`absolute top-70 text-8xl font-bold text-white text-center ${dmSerifDisplay.className}`}>
-            ACARA SERU MENUNGGUMU
-          </h1>
+        <h1 className={`absolute top-50 text-8xl font-bold text-white text-center ${dmSerifDisplay.className}`}>
+            BERAGAM ACARA SERU MENUNGGUMU
+        </h1>
         
         {/* Tombol Login */}
         <Link href="/login">
-          <button 
-          className="hover:bg-[#8900ff] hover:scale-105 hover:py-[14px] hover:px-[28px]"
+        <button 
+          className="
+          absolute
+          top-[500px]
+          left-1/2 transform -translate-x-1/2
+          w-[200px] h-[60px]
+          px-6 py-3
+          bg-white bg-opacity-10 hover:bg-black hover:bg-opacity-100
+          text-black font-bold hover:text-white
+          rounded-xl
+          shadow-md
+          transition-all
+          duration-300
+          hover:scale-105
+          active:scale-95
+          z-10
+          font-sans
+          border border-white border-opacity-30 hover:border-black hover:border-opacity-100
+          "
           style={{
-          padding: '12px 24px',
-          borderRadius: '15px',
-          border: 'none',
-          backgroundColor: '#4A3C6A',
-          color: 'white',
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
-          fontSize: '16px',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          transition: 'all 0.3s ease',
-          }}>
-          Login
-          </button>
+          fontFamily: "'Plus Jakarta Sans', sans-serif"
+        }}
+        >
+        Login
+        </button> 
         </Link>
       </div>
     </>

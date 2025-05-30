@@ -21,20 +21,28 @@ const workSans = Work_Sans({
 });
 
 export default function LoginPage() {
+
+    const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    
 
     const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);};
 
 return (
-    <div className="min-h-screen flex items-center justify-center " style={{ backgroundColor: '#000000' }}>
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
+      <div className="absolute inset-0 bg-[url('/image/bgfestival.jpg')] bg-cover bg-center blur-sm opacity-90 -z-10"/>
+        
         <div 
-            className="w-full max-w-2xl p-15 rounded-[40px] shadow-lg" 
-            style={{ backgroundColor: '#ffffff' }}
-        >
+          className="w-full max-w-2xl p-15 rounded-[40px] shadow-lg relative"
+          style={{ 
+          backgroundColor: 'rgba(255, 255, 255, 0.3)',
+          backdropFilter: 'blur(8px)' // Optional: adds glass morphism effect
+          }}
+>
             {/* Login Title */}
             <h1 
-                className={`text-4xl font-bold text-center mb-8 ${dmSerifDisplay.className}`}
+                className={`text-5xl font-bold text-center mb-8 ${dmSerifDisplay.className}`}
                 style={{ color: '#000000' }}
             >
                 Login
@@ -45,29 +53,29 @@ return (
                 <input
                     type="text"
                     placeholder="Username/email"
-                    className={`w-full p-4 ${plusJakartaSans.className}`}
+                    className={`w-full p-4 ${plusJakartaSans.className} hover:border-[#000000]`}
                     style={{
                         color: '#000000',
-                        backgroundColor: '#ff008d',
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)', // Putih 50% opacity
                         borderRadius: '20px',
-                        border: '2px solid #000000'
+                        border: '1px solid #000000'
                     }}
                 />
             </div>
 
             {/* Password Field */}
             <div className="mb-8 relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            className={`w-full p-4 pr-12 ${plusJakartaSans.className}`}
-            style={{
-              color: '#000000',
-              backgroundColor: '#ff008d',
-              borderRadius: '20px',
-              border: '1px solid #858584'
-            }}
-          />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  className={`w-full p-4 pr-12 ${plusJakartaSans.className}`}
+                  style={{
+                    color: '#000000',
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)', // Putih 50% opacity
+                    borderRadius: '20px',
+                    border: '1px solid #000000'
+                  }}
+              />
           <button
             type="button"
             onClick={togglePasswordVisibility}
@@ -93,7 +101,7 @@ return (
                 className={`w-full py-3 ${plusJakartaSans.className} font-bold mb-6`}
                 style={{
                     color: '#FFFFFF',
-                    backgroundColor: '#8900ff',
+                    backgroundColor: '#000000',
                     borderRadius: '15px',
                     border: 'none',
                     cursor: 'pointer'
@@ -103,11 +111,11 @@ return (
             </button>
 
             {/* Sign Up Link */}
-            <div className={`text-center ${workSans.className}`} style={{ color: '#858584' }}>
+            <div className={`text-center ${workSans.className}`} style={{ color: '#000000' }}>
                 Don't have an account yet?{' '}
                 <Link 
                     href="/signup" 
-                    className="hover:underline text-blue-500" 
+                    className="hover:underline text-white hover:text-[#0979FC] font-bold" 
                 >
                     Create one.
                 </Link>
