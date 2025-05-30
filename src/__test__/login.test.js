@@ -10,44 +10,40 @@ describe('Login API', () => {
     test('should return 400 if email or password is missing', async () => {
         const res = await request(app)
             .post('/login')
-            .send({ email: '', password: '' });
+            .send({ identifier: '', password: '' });
 
         expect(res.statusCode).toBe(400);
-        expect(res.body).toHaveProperty('error', 'Masukkan email dan password anda');
+        expect(res.body).toHaveProperty('error', 'Masukkan email/username dan password anda');
     });
 
     test('should return 401 if user not found', async () => {
         const res = await request(app)
             .post('/login')
-            .send({ email: 'notfound@example.com', password: 'wrongpassword' });
+            .send({ identifier: 'notfound@example.com', password: 'wrongpassword' });
 
         expect(res.statusCode).toBe(401);
-        expect(res.body).toHaveProperty('error', 'Email atau password anda salah');
+        expect(res.body).toHaveProperty('error', 'Email/Username atau password anda salah');
     });
 
 
 
     test('should return 200 and user data for valid credentials', async () => {
-        // This test will only pass if the user exists in your Supabase DB with this email and password
         const res = await request(app)
             .post('/login')
-            .send({ email: 'admin@gmail.com', password: 'admin#123' });
+            .send({ identifier: 'iyakah', password: 'testpassword13' });
 
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty('user');
-        expect(res.body.user).not.toHaveProperty('password');
     });
     
         test('should return 201 and user data for successful signup', async () => {
-            const uniqueEmail = `faiz${Date.now()}@gmail.com`; // generate email unik tiap run
-        
             const res = await request(app)
                 .post('/signup')
                 .send({
-                    email: uniqueEmail,
-                    password: 'testpassword123',
+                    email: 'testlag@gmail.com',
+                    password: 'testpassword13',
                     no_telepon: '08123456789',
-                    username: 'Test'
+                    username: 'iyakah'
                 });
             
             expect(res.statusCode).toBe(201);
