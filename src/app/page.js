@@ -15,7 +15,7 @@ export default function HomePage() {
       <Head>
         <title>ACARA SERU MENUNGGUMU</title>
       </Head>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#000000] p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#1c1c1c] p-4">
         {/* Container untuk teks dan lingkaran */}
         <div className="relative flex flex-col items-center">
           {/* Lingkaran sebagai mask untuk gambar */}
@@ -38,29 +38,24 @@ export default function HomePage() {
           </h1>
         
         {/* Tombol Login */}
-        <Link href="/page2.js">
+        <Link href="/login">
           <button 
+          className="hover:bg-[#8900ff] hover:scale-105 hover:py-[14px] hover:px-[28px]"
           style={{
-            padding: '12px 24px',
-            borderRadius: '15px',
-            border: 'none',
-            backgroundColor: '#4A3C6A',
-            color: 'white',
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            fontSize: '16px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            transition: 'all 0.3s ease',
-            ':hover': {
-              backgroundColor: '#624E88',
-              transform: 'scale(1.05)',
-              padding: '14px 28px'
-            }
-          }}
-        >
+          padding: '12px 24px',
+          borderRadius: '15px',
+          border: 'none',
+          backgroundColor: '#4A3C6A',
+          color: 'white',
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontSize: '16px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          transition: 'all 0.3s ease',
+          }}>
           Login
-        </button>
+          </button>
         </Link>
       </div>
     </>
