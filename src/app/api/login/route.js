@@ -1,6 +1,12 @@
 import { supabase } from '@/lib/client';
 
 export async function POST(req) {
+    // Example request body
+    // {
+    //   "identifier": "user123" or "use@mail.com", 
+    //   "password": "securepassword"
+    // }
+    
     const { identifier, password } = await req.json();
 
     if (!identifier || !password) {

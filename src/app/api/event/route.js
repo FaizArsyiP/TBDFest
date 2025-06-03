@@ -13,6 +13,15 @@ export async function GET() {
 }
 
 export async function POST(req) {
+//  Example request body
+//    {
+//   "nama_event": "Inovasi 2025",
+//   "lokasi": "Auditorium Universitas A",
+//   "tanggal": "2026-07-15",
+//   "waktu": "09:00",
+//   "kuota": 100
+//    }
+
     const body = await req.json();
     const { nama_event, lokasi, tanggal, waktu, kuota } = body;
 
