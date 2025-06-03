@@ -6,18 +6,18 @@ import Image from 'next/image';
 
 // Load fonts
 const dmSerifDisplay = DM_Serif_Display({ 
-  subsets: ['latin'],
-  weight: '400' 
+    subsets: ['latin'],
+    weight: '400' 
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
-  subsets: ['latin'],
-  weight: '400' 
+    subsets: ['latin'],
+    weight: '400' 
 });
 
 const workSans = Work_Sans({ 
-  subsets: ['latin'],
-  weight: '400' 
+    subsets: ['latin'],
+    weight: '400' 
 });
 
 export default function SignupPage() {

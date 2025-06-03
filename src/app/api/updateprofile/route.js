@@ -1,16 +1,15 @@
-import { supabase } from '../../../lib/client.js';
+import { supabase } from '@/lib/client';
 
-export default async function handler(req, res) {
-  if (req.method !== 'PUT') {
-    return res.status(405).json({ error: 'Invalid' });
-  }
+export async function PUT(req) {
+  const body = await req.json();
 
-  const { id_pengguna, email, password, no_telepon, username } = req.body;
+  const { id_pengguna, email, password, no_telepon, username } = body;
 
   if (!id_pengguna) {
-    return res.status(400).json({ error: 'id_pengguna is required' });
+    return Response.json({ error: 'id_pengguna is required' }, { status: 400 });
   }
-  // cek email unik
+
+  // Cek email unik
   if (email) {
     const { data: emailUser } = await supabase
       .from('pengguna')
@@ -20,7 +19,7 @@ export default async function handler(req, res) {
       .single();
 
     if (emailUser) {
-      return res.status(409).json({ error: 'Email ini sudah terdaftar' });
+      return Response.json({ error: 'Email ini sudah terdaftar' }, { status: 409 });
     }
   }
 
@@ -34,9 +33,10 @@ export default async function handler(req, res) {
       .single();
 
     if (usernameUser) {
-      return res.status(409).json({ error: 'Username tidak tersedia' });
+      return Response.json({ error: 'Username tidak tersedia' }, { status: 409 });
     }
   }
+
   const updates = {};
   if (email) updates.email = email;
   if (password) updates.password = password;
@@ -51,10 +51,10 @@ export default async function handler(req, res) {
     .single();
 
   if (error) {
-    return res.status(500).json({ error: error.message });
+    return Response.json({ error: error.message }, { status: 500 });
   }
 
   if (data) delete data.password;
 
-  return res.status(200).json({ message: 'Profil Terupdate', user: data });
+  return Response.json({ message: 'Profil Terupdate', user: data }, { status: 200 });
 }

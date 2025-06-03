@@ -1,4 +1,4 @@
-import handler from '../app/api/profile/route.js';
+import handler from '../app/api/updateprofile/route.js';
 import { supabase } from '../lib/client.js';
 
 function mockReqRes(method, body = {}) {
