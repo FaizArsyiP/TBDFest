@@ -56,40 +56,40 @@ export default function LoginPage() {
         setLoading(true);
         setError('');
 
-  if (!validateInput()) {
-    setLoading(false);
-    return;
-  }
+        if (!validateInput()) {
+          setLoading(false);
+          return;
+        }
 
-    try {
-      const res = await axios.post('../api/login', {
-        identifier: identifier.trim(),
-        password
-      })
-
-      console.log('Response dari server:', res.data);
-
-    if (res.data.message === 'Login Berhasil') {
-      alert('Login berhasil!');
-      router.push('/eventpage');
-    } else {
-      setError(res.data.message || 'Login gagal');
-    }
-
-    } catch (err) {
-      if (err.response) {
-        setError(err.response.data.error || 'Terjadi kesalahan')
-      } else {
-        setError('Gagal terhubung ke server')
-      }
-    } finally {
-      setLoading(false)
-    }
+        try {
+          const res = await axios.post('../api/login', {
+            identifier: identifier.trim(),
+            password
+          })
+        
+          console.log('Response dari server:', res.data);
+        
+        if (res.data.message === 'Login Berhasil') {
+          alert('Login berhasil!');
+          router.push('/eventpage');
+        } else {
+          setError(res.data.message || 'Login gagal');
+        }
+      
+        } catch (err) {
+          if (err.response) {
+            setError(err.response.data.error || 'Terjadi kesalahan')
+          } else {
+            setError('Gagal terhubung ke server')
+          }
+        } finally {
+          setLoading(false)
+        }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent form submission on Enter key
+      e.preventDefault(); 
       handleLogin();
     }
   }
