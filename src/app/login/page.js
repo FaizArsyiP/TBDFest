@@ -71,9 +71,7 @@ export default function LoginPage() {
 
     if (res.data.message === 'Login Berhasil') {
       alert('Login berhasil!');
-      console.log('Data user:', res.data.user);
-      console.log('Login sukses, akan redirect ke /homepage...');
-      router.push('/homepage');
+      router.push('/eventpage');
     } else {
       setError(res.data.message || 'Login gagal');
     }
