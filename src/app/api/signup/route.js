@@ -33,6 +33,26 @@ export async function POST(req) {
         return Response.json({ error: 'Username sudah terdaftar' }, { status: 409 });
         }
     }
+    if (password.length < 6) {
+        return Response.json({ error: 'Password harus minimal 6 karakter' }, { status: 400 });
+    }
+
+    if(no_telepon.length < 10 || no_telepon.length > 15) {
+        return Response.json({ error: 'Nomor telepon harus antara 10 hingga 15 karakter' }, { status: 400 });
+    }
+
+    if (!/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+        return Response.json({ error: 'Format email tidak valid' }, { status: 400 });
+    }
+
+    if (!/^[a-zA-Z0-9_.-]+$/.test(username)) {
+        return Response.json({ error: 'Username hanya boleh mengandung huruf, angka, titik, garis bawah, dan tanda hubung' }, { status: 400 });
+    }
+    
+    if (!/^[0-9]+$/.test(no_telepon)) {
+        return Response.json({ error: 'Nomor telepon hanya boleh mengandung angka' }, { status: 400 });
+    }
+
 
     const { data: lastUser, error: lastUserError } = await supabase
         .from('pengguna')

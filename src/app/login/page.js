@@ -43,12 +43,6 @@ export default function LoginPage() {
             setError('Masukkan password');
             return false;
         }
-
-        if (password.length < 6) {
-            setError('Password harus minimal 6 karakter');
-            return false;
-        }
-
         return true;
     };
 

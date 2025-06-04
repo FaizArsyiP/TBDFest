@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import SignupPopup from '@/component/signupPopUp';
+
 
 // Load fonts
 const dmSerifDisplay = DM_Serif_Display({ 
@@ -50,14 +52,9 @@ export default function SignupPage() {
             setError('Masukkan nomor telepon');
             return false;
         }
-
+        
         if (!password.trim()) {
             setError('Masukkan password');
-            return false;
-        }
-
-        if (password.length < 6) {
-            setError('Password harus minimal 6 karakter');
             return false;
         }
         return true;
@@ -111,6 +108,10 @@ export default function SignupPage() {
         setShowPassword(!showPassword);
     };
 
+    const handleClosePopup = () => {
+        setShowSuccessPopup(false);
+    }
+
     useEffect(() => {
         if (showSuccessPopup) {
             setPopupScale(0);
@@ -133,40 +134,13 @@ export default function SignupPage() {
                 }}
             >
                 {/* Success Popup - NO BLUR HERE */}
-                {showSuccessPopup && (
-                    <div className="fixed inset-0  flex items-center justify-center z-50">
-                        <div 
-                            className="bg-white p-8 rounded-[40px] text-center max-w-md mx-4"
-                            style={{
-                                backgroundColor: 'rgba(255, 255, 255, 1)',
-                                transform: `scale(${popupScale})`,
-                                transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                                transformOrigin: 'center'
-                            }}
-                        >
-                            <h2 
-                                className={`text-3xl font-bold mb-4 ${dmSerifDisplay.className}`}
-                                style={{ color: '#000000' }}
-                            >
-                                Selamat, Anda telah terdaftar
-                            </h2>
-                            <Link 
-                                href="/login"
-                                className={`inline-block px-6 py-3 ${plusJakartaSans.className} font-bold mt-4`}
-                                style={{
-                                    color: '#FFFFFF',
-                                    backgroundColor: '#000000',
-                                    borderRadius: '15px',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    textDecoration: 'none'
-                                }}
-                            >
-                                Login
-                            </Link>
-                        </div>
-                    </div>
-                )}
+                <SignupPopup 
+                    isVisible={showSuccessPopup}
+                    onClose={handleClosePopup}
+                    title="Selamat, Anda telah terdaftar"
+                    buttonText="Login"
+                    redirectPath="/login"
+                />
 
                 {/* Sign Up Form */}
                 <form onSubmit={handleSignUp}>
