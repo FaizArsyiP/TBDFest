@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { DM_Serif_Display, Plus_Jakarta_Sans, Work_Sans } from 'next/font/google';
 import { useState } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 // Load fonts
 const dmSerifDisplay = DM_Serif_Display({ 
@@ -21,14 +23,80 @@ const workSans = Work_Sans({
 });
 
 export default function LoginPage() {
-
-    const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    
+    const [identifier, setIdentifier] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
 
     const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);};
 
+    const validateInput = () => {
+        if (!identifier.trim()) {
+            setError('Masukkan username atau email');
+            return false;
+        }
+        if (!password.trim()) {
+            setError('Masukkan password');
+            return false;
+        }
+
+        if (password.length < 6) {
+            setError('Password harus minimal 6 karakter');
+            return false;
+        }
+
+        return true;
+    };
+
+    const handleLogin = async() => {
+        setLoading(true);
+        setError('');
+
+  if (!validateInput()) {
+    setLoading(false);
+    return;
+  }
+
+    try {
+      const res = await axios.post('../api/login', {
+        identifier: identifier.trim(),
+        password
+      })
+
+      console.log('Response dari server:', res.data);
+
+    if (res.data.message === 'Login Berhasil') {
+      alert('Login berhasil!');
+      console.log('Data user:', res.data.user);
+      console.log('Login sukses, akan redirect ke /homepage...');
+      router.push('/homepage');
+    } else {
+      setError(res.data.message || 'Login gagal');
+    }
+
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.error || 'Terjadi kesalahan')
+      } else {
+        setError('Gagal terhubung ke server')
+      }
+    } finally {
+      setLoading(false)
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission on Enter key
+      handleLogin();
+    }
+  }
+
+  
 return (
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
       <div className="absolute inset-0 bg-[url('/image/bgfestival.jpg')] bg-cover bg-center blur-sm opacity-90 -z-10"/>
@@ -51,8 +119,13 @@ return (
             {/* Username/Email Field */}
             <div className="mb-6">
                 <input
+                    id="identifier"
                     type="text"
                     placeholder="Username/email"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    disabled={loading}
                     className={`w-full p-4 ${plusJakartaSans.className} hover:border-[#000000]`}
                     style={{
                         color: '#000000',
@@ -60,14 +133,20 @@ return (
                         borderRadius: '20px',
                         border: '1px solid #000000'
                     }}
+                    aria-describedby='{error ? "error-message" : ""}' 
                 />
             </div>
 
             {/* Password Field */}
             <div className="mb-8 relative">
                 <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={loading}
                   className={`w-full p-4 pr-12 ${plusJakartaSans.className}`}
                   style={{
                     color: '#000000',
@@ -75,16 +154,19 @@ return (
                     borderRadius: '20px',
                     border: '1px solid #000000'
                   }}
+                  aria-describedby='{error ? "error-message" : ""}'
               />
           <button
             type="button"
             onClick={togglePasswordVisibility}
+            disabled={loading}
             className="absolute right-3 top-1/2 transform -translate-y-1/2"
             style={{
               background: 'none',
               border: 'none',
               cursor: 'pointer'
             }}
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
             <Image
               src={showPassword ? "/image/eyeview.png" : "/image/eyehide.png"}
@@ -94,25 +176,26 @@ return (
             />
           </button>
         </div>
-
-
             {/* Login Button */}
             <button
-                className={`w-full py-3 ${plusJakartaSans.className} font-bold mb-6`}
+                type="submit"
+                disabled={loading}
+                onClick={handleLogin}
+                className={`w-full py-3 ${plusJakartaSans.className} font-bold mb-6 `}
                 style={{
                     color: '#FFFFFF',
                     backgroundColor: '#000000',
                     borderRadius: '15px',
                     border: 'none',
-                    cursor: 'pointer'
+                    cursor: loading ? 'not-allowed' : 'pointer',
                 }}
             >
-                Login
+                {loading ? 'Loading...' : 'Login'}
             </button>
 
             {/* Sign Up Link */}
             <div className={`text-center ${workSans.className}`} style={{ color: '#000000' }}>
-                Don't have an account yet?{' '}
+                Don&apos;t have an account yet?{' '}
                 <Link 
                     href="/signup" 
                     className="hover:underline text-white hover:text-[#0979FC] font-bold" 
