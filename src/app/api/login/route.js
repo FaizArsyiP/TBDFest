@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/client';
+import { NextResponse } from 'next/server';
 
 export async function POST(req) {
     // Example request body
@@ -20,13 +21,13 @@ export async function POST(req) {
         .single();
 
     if (error || !data) {
-        return Response.json({ error: 'User tidak terdaftar' }, { status: 401 });
+        return NextResponse.json({ error: 'User tidak terdaftar' }, { status: 401 });
     }
 
     if (data.password !== password) {
-        return Response.json({ error: 'Password anda salah' }, { status: 401 });
+        return NextResponse.json({ error: 'Password anda salah' }, { status: 401 });
     }
 
     const { password: _, ...user } = data;
-    return Response.json({ message: 'Login Berhasil', user }, { status: 200 });
+    return NextResponse.json({ message: 'Login Berhasil', user}, { status: 200 });
 }

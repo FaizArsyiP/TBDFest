@@ -133,7 +133,7 @@ export default function SignupPage() {
                     backdropFilter: 'blur(8px)'
                 }}
             >
-                {/* Success Popup - NO BLUR HERE */}
+                {/* Success Popup */}
                 <SignupPopup 
                     isVisible={showSuccessPopup}
                     onClose={handleClosePopup}

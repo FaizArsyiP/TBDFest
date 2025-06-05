@@ -28,7 +28,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
+    
     const router = useRouter();
 
     const togglePasswordVisibility = () => {
@@ -64,9 +64,14 @@ export default function LoginPage() {
           console.log('Response dari server:', res.data);
         
         if (res.data.message === 'Login Berhasil') {
+          const id_pengguna = res.data.user.id_pengguna;
+          localStorage.setItem('id_pengguna', id_pengguna);
+          console.log('ID Pengguna:', id_pengguna);
+          
           alert('Login berhasil!');
           router.push('/eventpage');
-        } else {
+
+        }else {
           setError(res.data.message || 'Login gagal');
         }
       
