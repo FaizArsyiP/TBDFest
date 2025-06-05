@@ -2,9 +2,9 @@
 import Link from 'next/link';
 import { DM_Serif_Display, Plus_Jakarta_Sans, Work_Sans } from 'next/font/google';
 import { useState } from 'react';
-import Image from 'next/image';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 // Load fonts
 const dmSerifDisplay = DM_Serif_Display({ 
@@ -157,7 +157,7 @@ return (
             type="button"
             onClick={togglePasswordVisibility}
             disabled={loading}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2"
+            className="absolute right-7 top-1/2 transform -translate-y-1/2 "
             style={{
               background: 'none',
               border: 'none',
@@ -165,12 +165,12 @@ return (
             }}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            <Image
-              src={showPassword ? "/image/eyeview.png" : "/image/eyehide.png"}
-              alt={showPassword ? "Hide password" : "Show password"}
-              width={24}
-              height={24}
-            />
+            {showPassword ? (
+              <LuEye size={24} color="#000000" />
+            ) : (
+              <LuEyeClosed size={24} color="#000000" />
+            )}
+
           </button>
         </div>
 

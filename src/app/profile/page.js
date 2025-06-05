@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FaEdit } from "react-icons/fa";
 
 export default function ProfilePage() {
 return (
@@ -45,6 +46,10 @@ return (
 												********
 										</p>
 								</div>
+								<button className="mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition-colors duration-200 flex items-center justify-center"> 
+									Edit Profile
+									<FaEdit className="inline ml-2 mb-0.5" />
+								</button>
 						</div>
 				</div>
     </div>
