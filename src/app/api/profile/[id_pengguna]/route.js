@@ -78,3 +78,22 @@ export async function PUT(req, {params}) {
 
     return NextResponse.json({ user: data }, { status: 200 });
 }
+
+export async function DELETE(_, {params}) {
+    const { id_pengguna } = await params;
+
+    if (!id_pengguna) {
+        return NextResponse.json({ error: 'id_pengguna is required' }, { status: 400 });
+    }
+
+    const { error } = await supabase
+        .from('pengguna')
+        .delete()
+        .eq('id_pengguna', id_pengguna);
+
+    if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: 'Akun berhasil dihapus' }, { status: 200 });
+}
