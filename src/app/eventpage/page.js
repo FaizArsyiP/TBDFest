@@ -2,9 +2,10 @@
 
 import EventCard from '@/component/eventcard';
 import Eventdetail from '@/component/eventdetail';
+import Footer from '@/component/footer';
+import Header from '@/component/header';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { CgProfile } from 'react-icons/cg';
 
 
 export default function TBDFestPage() {
@@ -27,16 +28,11 @@ export default function TBDFestPage() {
   const openEventDetail = (event) => setActiveEvent(event);
   const closeEventDetail = () => setActiveEvent(null);
 
+
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Header */}
-      <header className="flex justify-between items-center p-5 px-7 bg-white shadow-md sticky top-0 z-50">
-        <div className="foneitwu  text-3xl mx-10">TBDFEST</div>
-        <CgProfile 
-          className="text-5xl text-red-700 cursor-pointer hover:text-red-800 transition-colors duration-300 mx-10" 
-          onClick={() => window.location.href = '/profile'}
-        />
-      </header>
+      <Header/>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-6xl">
@@ -59,7 +55,7 @@ export default function TBDFestPage() {
         {/* Create Event Button */}
         <div className="text-center">
           <a 
-            href="/eventpage"
+            href="/makeevent"
             className="inline-block font-['Montserrat'] font-bold text-xl px-10 py-4 border-2 border-black rounded-full transition-all duration-300 hover:bg-black hover:text-white"
           >
             + Buat Event-mu
@@ -76,21 +72,7 @@ export default function TBDFestPage() {
       )}
 
       {/* Footer */}
-      <footer className="bg-gray-100 py-12 mt-16">
-        <div className="container mx-auto px-4 max-w-6xl text-center">
-          <div className="foneitwu text-3xl mb-6">TBDFEST</div>
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            {['Tentang Kami', 'Kebijakan Privasi', 'Syarat & Ketentuan', 'Kontak', 'FAQ'].map((item, idx) => (
-              <a key={idx} href="#" className="text-gray-600 hover:text-red-700 font-medium">
-                {item}
-              </a>
-            ))}
-          </div>
-          <p className="text-gray-500 text-sm">
-            © 2025 TBDFEST. Hak Cipta Dilindungi.
-          </p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }

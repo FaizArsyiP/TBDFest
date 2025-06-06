@@ -1,18 +1,25 @@
+'use client'
+
+import Footer from "@/component/footer";
+import Header from "@/component/header";
 import Image from "next/image";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { CgProfile } from 'react-icons/cg';
 
 export default function ProfilePage() {
 return (
+	<>
+	<Header />
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
 		<div className="bg-cyan-500 shadow-md rounded-lg p-6 w-full max-w-md flex flex-col items-center">
 				<h1 className="text-2xl font-bold mb-4">Profile</h1>
 				<Image
-						src="/image/profile.png"
+						src="/image/ProfileIcon.png"
 						alt="Profile Picture"
 						width={100}
 						height={100}
-						className="rounded-full mb-4"
+						className="rounded-full mb-4 fill-white"
 				/>
 				<div className="flex flex-col w-full gap-2">
 						<div className="bg-gray-50 p-4 rounded-lg">
@@ -60,6 +67,8 @@ return (
 				</div>
 		</div>
     </div>
+	<Footer />
+	</>
 );
 }
 

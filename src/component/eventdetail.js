@@ -1,28 +1,44 @@
 import { IoCloseCircle } from "react-icons/io5";
 
 export default function Eventdetail({ event, onClick }) {
+  const formatTanggalIndonesia = (tanggalStr) => {
+		const tanggal = new Date(tanggalStr);
+		const hari = tanggal.toLocaleDateString('id-ID', { weekday: 'long' });
+		const tanggalNum = tanggal.getDate();
+		const bulan = tanggal.toLocaleDateString('id-ID', { month: 'long' });
+		const tahun = tanggal.getFullYear();
+
+		return `${hari}, ${tanggalNum} ${bulan} ${tahun}`;
+	};
+
   return(
-    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 backdrop-blur-xs bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl w-full max-w-3xl overflow-hidden">
         <div className="bg-red-700 p-6 md:p-8 relative">
-          <h2 className="bebas text-3xl md:text-4xl text-white tracking-wider">
+          <h2 className="bebas text-6xl text-white tracking-wider">
             {event.nama_event.toUpperCase()}
           </h2>
-          <p className="font-['Montserrat'] text-white text-lg mt-2">
-            {!event.waktu_selesai ?
-              `${event.tanggal} | ${event.waktu_mulai}`
-              :
-              `${event.tanggal} | ${event.waktu_mulai} - ${event.waktu_selesai}`
-            }
-          </p>
-
-            <IoCloseCircle 
-                className="text-white text-4xl absolute top-8 right-8 ursor-pointer hover:text-red-300 transition-colors duration-300"
-                onClick = {onClick}
-            />
+          <IoCloseCircle 
+              className="text-white text-4xl absolute top-8 right-8 ursor-pointer hover:text-red-300 transition-colors duration-300 cursor-pointer"
+              onClick = {onClick}
+          />
         </div>
         <div className="p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+            <InfoBox 
+              title="Waktu" 
+              value={
+                <span>
+                  <span>{formatTanggalIndonesia(event.tanggal)}</span>
+                  <span>
+                    {!event.waktu_selesai 
+                      ? event.waktu_mulai
+                      : `${event.waktu_mulai} - ${event.waktu_selesai}`
+                    }
+                  </span>
+                </span>
+              }
+            />
             <InfoBox title="Lokasi" value={event.lokasi} />
             <InfoBox title="Kategori" value={event.kategori} />
             <InfoBox title="Kuota" value={event.kuota} />
@@ -42,9 +58,6 @@ export default function Eventdetail({ event, onClick }) {
             >
               Beli Tiket Sekarang
             </a>
-            <button className="border-2 border-gray-800 hover:bg-gray-800 hover:text-white font-bold py-3 px-8 rounded-full transition-colors">
-              Bagikan Event
-            </button>
           </div>
         </div>
       </div>
