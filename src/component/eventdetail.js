@@ -5,8 +5,8 @@ export default function Eventdetail({ event, onClick }) {
     <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl w-full max-w-3xl overflow-hidden">
         <div className="bg-red-700 p-6 md:p-8 relative">
-          <h2 className="font-['Bebas_Neue'] text-3xl md:text-4xl text-white tracking-wider">
-            {event.nama_event}
+          <h2 className="bebas text-3xl md:text-4xl text-white tracking-wider">
+            {event.nama_event.toUpperCase()}
           </h2>
           <p className="font-['Montserrat'] text-white text-lg mt-2">
             {!event.waktu_selesai ?

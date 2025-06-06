@@ -20,8 +20,8 @@ export default function EventCard({ events = [], onClick = () => {} }) {
 						className="w-full h-72 bg-red-700 rounded-3xl p-6 flex flex-col justify-between cursor-pointer transform hover:-translate-y-2 transition-transform duration-300 shadow-xl"
 						onClick={() => onClick(event)}
 					>
-						<h2 className="font-bold text-2xl text-white tracking-wide mb-2">
-							{event.nama_event}
+						<h2 className="bebas font-bold text-3xl text-white tracking-wide mb-2">
+							{event.nama_event.toUpperCase()}
 						</h2>
 						<div className="space-y-2">
 							<p className="text-white text-sm">
