@@ -11,6 +11,11 @@ export default function Eventdetail({ event, onClick }) {
 		return `${hari}, ${tanggalNum} ${bulan} ${tahun}`;
 	};
 
+  const formatKuota = (kuota) => {
+    if (kuota === 0) return "Tidak ada kuota";
+    return `${kuota.toLocaleString('id-ID')} orang`;
+  };
+
   return(
     <div className="fixed inset-0 backdrop-blur-xs bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl w-full max-w-3xl overflow-hidden">
@@ -30,6 +35,7 @@ export default function Eventdetail({ event, onClick }) {
               value={
                 <span>
                   <span>{formatTanggalIndonesia(event.tanggal)}</span>
+                  <br />
                   <span>
                     {!event.waktu_selesai 
                       ? event.waktu_mulai
@@ -41,7 +47,7 @@ export default function Eventdetail({ event, onClick }) {
             />
             <InfoBox title="Lokasi" value={event.lokasi} />
             <InfoBox title="Kategori" value={event.kategori} />
-            <InfoBox title="Kuota" value={event.kuota} />
+            <InfoBox title="Kuota" value={formatKuota(event.kuota)} />
           </div>
           <div className="mb-8">
             <h3 className="text-xl font-bold pb-3 mb-4 border-b-2 border-red-700 inline-block">
@@ -67,7 +73,7 @@ export default function Eventdetail({ event, onClick }) {
 
 function InfoBox({ title, value }) {
     return (
-        <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-red-700">
+        <div className="bg-gray-50 p-4 rounded-lg border-l-6 border-red-700">
             <p className="text-gray-600 font-medium">{title.toUpperCase()}</p>
             <p className="font-semibold text-lg">{value}</p>
         </div>
