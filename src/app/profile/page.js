@@ -8,6 +8,7 @@ import { FaEdit } from "react-icons/fa";
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState({
@@ -19,7 +20,8 @@ export default function ProfilePage() {
 
   const [editingField, setEditingField] = useState(null);
   const [tempValue, setTempValue] = useState('');
-  const [actualPassword, setActualPassword] = useState('secretpassword');
+  const [actualPassword, setActualPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const id_pengguna = localStorage.getItem('id_pengguna');
@@ -43,33 +45,45 @@ export default function ProfilePage() {
   const startEditing = (field) => {
     setEditingField(field);
     if (field === 'password') {
-      setTempValue(actualPassword);
+      setTempValue('');
+      setShowPassword(false); // Reset password visibility when starting to edit
     } else {
       setTempValue(userData[field]);
     }
   };
 
   const saveEditing = (field) => {
+    if (tempValue.trim() === '') {
+      alert("Field tidak boleh kosong.");
+      return;
+    }
     if (field === 'password' && tempValue === actualPassword) {
       alert("Password tidak boleh sama dengan password sebelumnya.");
       return;
     }
 
-    const updatedData = { ...userData, [field]: tempValue };
+    const updatedData = { ...userData, [field]: field === 'password' ? '••••••••' : tempValue };
     setUserData(updatedData);
-    setEditingField(null);
+    
+    // Update actual password if password field is being edited
+    if (field === 'password') {
+      setActualPassword(tempValue);
+    }
 
     // Simpan perubahan ke server
     const id_pengguna = localStorage.getItem('id_pengguna');
-    axios.put(`/api/profile/${id_pengguna}`, updatedData)
+    const dataToSend = { ...userData, [field]: tempValue };
+    axios.put(`/api/profile/${id_pengguna}`, dataToSend)
       .then(response => {
         console.log("Perubahan berhasil disimpan:", response.data);
       })
       .catch(error => {
         console.error("Gagal menyimpan perubahan:", error);
       });
+    
     setTempValue(''); // Clear temp value after saving
     setEditingField(null); // Reset editing state
+    setShowPassword(false); // Reset password visibility
   };
 
   const handleButtonClick = (field) => {
@@ -78,6 +92,12 @@ export default function ProfilePage() {
     } else {
       startEditing(field);
     }
+  };
+
+  const cancelEditing = () => {
+    setTempValue('');
+    setEditingField(null);
+    setShowPassword(false); // Reset password visibility when canceling
   };
 
   const handleDeleteAccount = () => {
@@ -101,9 +121,15 @@ export default function ProfilePage() {
     if (e.key === 'Enter') {
       e.preventDefault(); 
       handleButtonClick(fieldId);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      cancelEditing();
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const fields = [
     { 
@@ -170,15 +196,25 @@ export default function ProfilePage() {
             const isEditing = editingField === field.id;
             const isPassword = field.id === 'password';
             
+            // Fixed input type logic
             let inputType = 'text';
-            if (isEditing) {
-              if (isPassword) inputType = 'password';
-              else if (field.id === 'phoneNumber') inputType = 'tel';
+            if (isPassword) {
+              // For password field, type depends on showPassword state regardless of editing mode
+              inputType = showPassword ? 'text' : 'password';
+            } else if (field.id === 'phoneNumber') {
+              inputType = 'tel';
             }
             
-            const value = isEditing 
-              ? tempValue 
-              : (isPassword ? userData.password : userData[field.id]);
+            // Fixed value logic
+            let value;
+            if (isEditing) {
+              value = tempValue;
+            } else if (isPassword) {
+              // When not editing, show actual password if toggle is on, otherwise show dots
+              value = showPassword ? actualPassword : '••••••••';
+            } else {
+              value = userData[field.id];
+            }
 
             return (
               <div 
@@ -186,30 +222,59 @@ export default function ProfilePage() {
                 className={`py-4 px-8 ${field.hasBorder ? 'border-t border-gray-200' : ''}`}
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="bebas tracking-wider text-black text-lg"
-                  >
+                  <span className="bebas tracking-wider text-black text-lg">
                     {field.label}
                   </span>
-                  <button
-                    onClick={() => handleButtonClick(field.id)}
-                    className="text-[#AF3E3E] bebas text-lg tracking-wide hover:scale-95 transition-transform duration-200"
-                  >
-                    {isEditing ? "Save" : field.buttonText}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleButtonClick(field.id)}
+                      className="text-[#AF3E3E] bebas text-lg tracking-wide hover:scale-95 transition-transform duration-200"
+                    >
+                      {isEditing ? "Save" : field.buttonText}
+                    </button>
+                    {isEditing && (
+                      <button
+                        onClick={cancelEditing}
+                        className="text-gray-500 bebas text-lg tracking-wide hover:scale-95 transition-transform duration-200"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <div>
+                <div className="relative">
                   <input
                     type={inputType}
                     value={value}
                     onChange={(e) => setTempValue(e.target.value)}
                     onKeyDown={(e) => handleKeyDown(e, field.id)}
                     readOnly={!isEditing}
+                    placeholder={isEditing && isPassword ? "Masukkan password baru" : ""}
                     className={`w-full p-3 font-montserrat border border-gray-300 rounded-lg focus:outline-none text-black ${
                       isEditing 
                         ? 'focus:ring-2 focus:ring-[#AF3E3E]' 
                         : 'bg-gray-50 cursor-default'
                     }`}
                   />
+                  {isPassword && (
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? (
+                        <LuEye size={24} color="#000000" />
+                      ) : (
+                        <LuEyeClosed size={24} color="#000000" />
+                      )}
+                    </button>
+                  )}
                 </div>
               </div>
             );

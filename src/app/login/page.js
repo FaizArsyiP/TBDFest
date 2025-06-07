@@ -32,7 +32,8 @@ export default function LoginPage() {
     const router = useRouter();
 
     const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);};
+      setShowPassword(!showPassword);
+    };
 
     const validateInput = () => {
         if (!identifier.trim()) {
