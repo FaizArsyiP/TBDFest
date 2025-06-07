@@ -34,7 +34,6 @@ export async function POST(req) {
         lokasi: 'lokasi event',
         tanggal: 'tanggal event',
         waktu_mulai: 'waktu mulai event',
-        waktu_selesai: 'waktu selesai event',
         kuota: 'kuota event',
         deskripsi: 'deskripsi event',
         kategori: 'kategori event'
@@ -76,18 +75,26 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Event telah terselenggara' }, { status: 409 });
     }
 
-    const { data: datebooked} = await supabase
+    let conflictQuery = supabase
         .from('event')
         .select('*')
         .eq('tanggal', tanggal)
-        .eq('lokasi', lokasi)
-        .or(`waktu_mulai.eq.${waktu_mulai}, waktu_selesai.eq.${waktu_selesai}`)
-        .limit(1)
-        .single();
+        .eq('lokasi', lokasi);
+
+    if (waktu_selesai) {
+        conflictQuery = conflictQuery
+            .or(`waktu_mulai.eq.${waktu_mulai},waktu_selesai.eq.${waktu_selesai}`);
+    } else {
+        conflictQuery = conflictQuery
+            .eq('waktu_mulai', waktu_mulai);
+    }
+
+    const { data: datebooked } = await conflictQuery.limit(1).single();
 
     if (datebooked) {
         return NextResponse.json({ error: 'Sudah ada event yang terselenggara pada tanggal dan lokasi tersebut' }, { status: 409 });
     }
+
 
     const {data: LastID, error: LastIDError} = await supabase
         .from('event')
@@ -103,7 +110,7 @@ export async function POST(req) {
 
     const {data, error} = await supabase
         .from('event')
-        .insert([{ id_event: newId ,nama_event, lokasi, tanggal, waktu_mulai, waktu_selesai, kuota, deskripsi, kategori }])
+        .insert([{ id_event: newId ,nama_event, lokasi, tanggal, waktu_mulai, waktu_selesai:waktu_selesai||null, kuota, deskripsi, kategori }])
         .select()
         .single();
     if (error) {

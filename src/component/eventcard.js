@@ -10,7 +10,12 @@ export default function EventCard({ events = [], onClick = () => {} }) {
 
 		return `${hari}, ${tanggalNum} ${bulan} ${tahun}`;
 	};
-
+	
+	const formatWaktu = (waktuStr) => {
+		if (!waktuStr) return '';
+		// Ambil hanya bagian HH:MM dari format HH:MM:SS
+		return waktuStr.substring(0, 5);
+	};
 	return (
 		<div className="w-full mb-10">
 			<div className="grid grid-cols-4 gap-4">
@@ -28,7 +33,7 @@ export default function EventCard({ events = [], onClick = () => {} }) {
 								{formatTanggalIndonesia(event.tanggal)}
 							</p>
 							<p className="text-white text-sm">
-								{event.waktu_mulai} - {event.waktu_selesai || 'Selesai'}
+								{formatWaktu(event.waktu_mulai)} - {formatWaktu(event.waktu_selesai) || 'Selesai'}
 							</p>
 							<p className="text-white text-sm">
 								{event.lokasi}

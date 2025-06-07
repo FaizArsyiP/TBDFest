@@ -69,7 +69,7 @@ export default function LoginPage() {
           console.log('ID Pengguna:', id_pengguna);
           
           alert('Login berhasil!');
-          router.push('/eventpage');
+          router.push('/listevent');
 
         }else {
           setError(res.data.message || 'Login gagal');
@@ -86,7 +86,7 @@ export default function LoginPage() {
         }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault(); 
       handleLogin();
@@ -121,7 +121,7 @@ return (
                     placeholder="Username/email"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyDown}
                     disabled={loading}
                     className={`w-full p-4 ${plusJakartaSans.className} hover:border-[#000000]`}
                     style={{
@@ -142,7 +142,7 @@ return (
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                   disabled={loading}
                   className={`w-full p-4 pr-12 ${plusJakartaSans.className}`}
                   style={{

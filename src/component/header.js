@@ -14,7 +14,7 @@ export default function Header() {
             <header className="flex justify-between items-center p-5 px-7 bg-white shadow-md sticky top-0 z-40">
                 <div 
                     className="foneitwu  text-3xl mx-10 text-black"
-                    onClick={() => window.location.href = '/eventpage'}
+                    onClick={() => window.location.href = '/listevent'}
                     style={{ cursor: 'pointer' }}
                 >
                     TBDFEST

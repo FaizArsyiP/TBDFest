@@ -96,7 +96,7 @@ export default function SignupPage() {
         }
     }
 
-    const handleKeyPress = (e) => {
+    const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             handleSignUp();
@@ -120,13 +120,13 @@ export default function SignupPage() {
     }, [showSuccessPopup]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-cover bg-center relative">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center relative">
     {/* Background image with blur */}
     <div className={`absolute inset-0 bg-[url('/image/bgfestival.jpg')] bg-cover bg-center transition-all duration-300 ${showSuccessPopup ? 'blur-md' : 'blur-sm'} opacity-90 -z-10`}/>
     
     {/* Form Container */}
     <div 
-        className="w-full max-w-2xl p-8 rounded-[40px] shadow-lg relative"
+        className="w-2xl p-8 rounded-[40px] shadow-lg relative"
         style={{ 
             backgroundColor: 'rgba(255, 255, 255, 0.3)',
             backdropFilter: 'blur(8px)'
@@ -150,7 +150,7 @@ export default function SignupPage() {
                         placeholder="Username"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyDown={handleKeyDown}
                         disabled={loading}
                         className={`w-full p-4 ${plusJakartaSans.className}`}
                         style={{
@@ -172,7 +172,7 @@ export default function SignupPage() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyDown={handleKeyDown}
                         disabled={loading}
                         className={`w-full p-4 ${plusJakartaSans.className}`}
                         style={{
@@ -194,7 +194,7 @@ export default function SignupPage() {
                         placeholder="Phone Number"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyDown={handleKeyDown}
                         disabled={loading}
                         className={`w-full p-4 ${plusJakartaSans.className}`}
                         style={{
@@ -216,7 +216,7 @@ export default function SignupPage() {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyDown={handleKeyDown}
                         disabled={loading}
                         className={`w-full p-4 pr-12 ${plusJakartaSans.className}`}
                         style={{
@@ -302,9 +302,6 @@ export default function SignupPage() {
             <SignupPopup 
                 isVisible={showSuccessPopup}
                 onClose={handleClosePopup}
-                title="Selamat, Anda telah terdaftar"
-                buttonText="Login"
-                redirectPath="/eventpage"
             />
         </div>
     </>
