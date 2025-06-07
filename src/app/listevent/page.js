@@ -42,7 +42,7 @@ export default function TBDFestPage() {
           </p>
           <h1 className="bebas font-bold text-4xl md:text-5xl lg:text-6xl tracking-wider relative inline-block pb-2">
             PILIHAN EVENT MENARIK UNTUKMU
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-red-700 rounded-full"></span>
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-1 bg-red-700 rounded-full"></span>
           </h1>
         </div>
 

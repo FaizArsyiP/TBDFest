@@ -53,11 +53,6 @@ export default function CreateEventPage() {
                 return false;
             }
 
-            // Validate end time is after start time
-            if (waktuSelesai <= waktuMulai) {
-                setError("Waktu selesai harus setelah waktu mulai");
-                return false;
-            }
             return true;
         };
         

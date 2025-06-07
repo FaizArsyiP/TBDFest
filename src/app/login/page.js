@@ -63,6 +63,7 @@ export default function LoginPage() {
           })
         
           console.log('Response dari server:', res.data);
+          console.log('res.data.user.id_pengguna:', res.data.user.id_pengguna);
         
         if (res.data.message === 'Login Berhasil') {
           const id_pengguna = res.data.user.id_pengguna;

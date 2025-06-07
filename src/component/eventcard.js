@@ -1,5 +1,3 @@
-
-
 export default function EventCard({ events = [], onClick = () => {} }) {
 	const formatTanggalIndonesia = (tanggalStr) => {
 		const tanggal = new Date(tanggalStr);
