@@ -18,7 +18,7 @@ export default function HomePage() {
       <div 
       className="min-h-screen flex flex-col items-center justify-center p-4"
       style={{ 
-        backgroundImage: "url('/Image/bgFestival.jpg')",
+        backgroundImage: "url('/Image/bgfestival.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'

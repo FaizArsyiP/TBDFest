@@ -98,7 +98,7 @@ export default function LoginPage() {
   
 return (
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
-      <div className="absolute inset-0 bg-[url('/Image/bgFestival.jpg')] bg-cover bg-center blur-sm opacity-90 -z-10"/>
+      <div className="absolute inset-0 bg-[url('/Image/bgfestival.jpg')] bg-cover bg-center blur-sm opacity-90 -z-10"/>
         
         <div 
           className="w-full max-w-2xl p-15 rounded-[40px] shadow-lg relative"
