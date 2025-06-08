@@ -122,7 +122,7 @@ export default function SignupPage() {
     return (
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center relative">
     {/* Background image with blur */}
-    <div className={`absolute inset-0 bg-[url('/image/bgfestival.jpg')] bg-cover bg-center transition-all duration-300 ${showSuccessPopup ? 'blur-md' : 'blur-sm'} opacity-90 -z-10`}/>
+    <div className={`absolute inset-0 bg-[url('/Image/bgFestival.jpg')] bg-cover bg-center transition-all duration-300 ${showSuccessPopup ? 'blur-md' : 'blur-sm'} opacity-90 -z-10`}/>
     
     {/* Form Container */}
     <div 

@@ -62,7 +62,7 @@ export default function ProfilePage() {
       return;
     }
 
-    const updatedData = { ...userData, [field]: field === 'password' ? '••••••••' : tempValue };
+    const updatedData = { ...userData, [field]: tempValue };
     setUserData(updatedData);
     
     // Update actual password if password field is being edited
@@ -179,7 +179,7 @@ export default function ProfilePage() {
           <div className="flex justify-center mt-4">
             <div className="relative">
               <Image 
-                src="/image/ProfileIcon.png" 
+                src="/Image/ProfileIcon.png" 
                 alt="Profile" 
                 width={100} 
                 height={100} 
